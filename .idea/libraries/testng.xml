@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="testng">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/testng/testng-5.14.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file:///var/folders/mn/m7gnmc1j7znfhklwm0318l680000gn/T/intellijad" />
+    </SOURCES>
+  </library>
+</component>
