@@ -62,7 +62,7 @@ public class DigitalOceanCloudClient extends BuildServerAdapter implements Cloud
       ImagesList images = myApi.getImages();
       final Image image = images.findByName(settings.getImageName());
       if (image != null) {
-        myImage = new DigitalOceanCloudImage(image, settings.getInstancesLimit());
+        myImage = new DigitalOceanCloudImage(image, settings.getInstancesLimit(), myApi);
       } else {
         myErrorInfo = new CloudErrorInfo("Cannot find image with name " + settings.getImageName());
       }

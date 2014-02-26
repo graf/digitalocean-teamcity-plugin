@@ -47,12 +47,18 @@ public class DigitalOceanCloudImage implements CloudImage {
 
   private int myInstancesLimit;
 
-  @NotNull private final Image myDigitalOceanImage;
+  @Nullable private CloudErrorInfo myLastError;
+
+  @NotNull private Image myDigitalOceanImage;
+
+  @NotNull private final DigitalOceanApiProvider myApi;
 
   public DigitalOceanCloudImage(@NotNull final Image image,
-                                final int instancesLimit) {
+                                final int instancesLimit,
+                                DigitalOceanApiProvider api) {
     myDigitalOceanImage = image;
     myInstancesLimit = instancesLimit;
+    myApi = api;
   }
 
   @NotNull
@@ -81,7 +87,7 @@ public class DigitalOceanCloudImage implements CloudImage {
 
   @Nullable
   public CloudErrorInfo getErrorInfo() {
-    return null;
+    return myLastError;
   }
 
   @NotNull
@@ -138,6 +144,14 @@ public class DigitalOceanCloudImage implements CloudImage {
 
   @NotNull
   public Image getDigitalOceanImage() {
+    final Image image = myApi.getImages().findByName(myDigitalOceanImage.getName());
+    if (image != null) {
+      myDigitalOceanImage = image;
+      myLastError = null;
+    } else {
+      myLastError = new CloudErrorInfo("Cannot find image with name " + myDigitalOceanImage.getName());
+    }
+
     return myDigitalOceanImage;
   }
 
