@@ -1,5 +1,18 @@
 This is a TeamCity Cloud Plugin that provides integration with Digital Ocean and allows running build agents in Cloud.
 
+Build plugin
+===============================
+The easiest way is to build plugin with IntelliJ IDEA Ultimate
+
+<ol start=0>
+<li>You need unpacked TeamCity, e.g. /opt/teamcity </li>
+<li>Clone project</li>
+<li>Open project with IDEA and, when it ask you about missing 'TeamCityDistribution', provide it.</li>
+<li>Click 'Build' -> 'Build artifacts' -> 'plugin_zip' -> 'build'</li>
+<li>Navigate to PROJECT_ROOT/out/artifacts/plugin_zip</li>
+<li>PROFIT!!!</li>
+</ol>
+
 Install and configure plugin on the client
 ============================================
 - Setup your testing environment and install build agent as described in TeamCity's documentation
