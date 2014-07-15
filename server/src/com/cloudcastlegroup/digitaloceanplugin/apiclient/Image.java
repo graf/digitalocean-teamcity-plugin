@@ -16,6 +16,8 @@
 
 package com.cloudcastlegroup.digitaloceanplugin.apiclient;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * User: graf
  * Date: 05/12/13
@@ -38,5 +40,19 @@ public class Image extends DigitalOceanObject {
   @Override
   public String toString() {
     return name + "(" + distribution + ")";
+  }
+
+  public static Image findByName(@NotNull Image[] images, @NotNull final String name) {
+    if (name.isEmpty()) {
+      throw new IllegalArgumentException("Name cannot be null or empty");
+    }
+
+    for (Image image : images) {
+      if (name.equals(image.getName())) {
+        return image;
+      }
+    }
+
+    return null;
   }
 }

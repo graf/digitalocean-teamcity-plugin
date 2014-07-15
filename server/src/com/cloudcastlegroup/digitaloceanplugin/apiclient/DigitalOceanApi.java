@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Cloud Castle Group
+ * Copyright 2009-2014 Cloud Castle Group
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,35 @@
 
 package com.cloudcastlegroup.digitaloceanplugin.apiclient;
 
-/**
- * User: graf
- * Date: 09/12/13
- * Time: 14:43
- */
-public class SshKeyInstance extends DigitalOceanApiResponse {
+import org.jetbrains.annotations.NotNull;
 
-  private SshKey ssh_key;
+public interface DigitalOceanApi {
 
-  public SshKey getSshKey() {
-    return ssh_key;
-  }
+  Droplet getDroplet(int id);
+
+  Droplet[] getDroplets();
+
+  Droplet createDroplet(@NotNull final String name, int imageId, int sizeId, int regionId, int sshKeyId);
+
+  Event powerOnDroplet(int id);
+
+  Event destroyDroplet(int id);
+
+  Event shutdownDroplet(int id);
+
+  Image getImage(int id);
+
+  Image[] getImages();
+
+  Image[] getImages(boolean onlyMyImages);
+
+  Size[] getSizes();
+
+  Region[] getRegions();
+
+  SshKey[] getSshKeys();
+
+  SshKey getSshKey(int id);
+
+  Event getEvent(int id);
 }

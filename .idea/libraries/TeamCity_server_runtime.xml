@@ -6,6 +6,7 @@
     <JAVADOC />
     <SOURCES>
       <root url="file:///var/folders/mn/m7gnmc1j7znfhklwm0318l680000gn/T/intellijad" />
+      <root url="jar://$USER_HOME$/.ideaLibSources/gson-1.7.1-sources.jar!/" />
     </SOURCES>
     <jarDirectory url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib" recursive="false" />
   </library>

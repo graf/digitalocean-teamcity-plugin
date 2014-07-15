@@ -42,9 +42,17 @@ import static com.cloudcastlegroup.digitaloceanplugin.settings.ProfileConfigurat
 public class DigitalOceanCloudClientFactory implements CloudClientFactory {
 
   @NotNull private final String myJspPath;
+  @NotNull private final PropertiesProcessor myPropertiesProcessor;
+
   
   public DigitalOceanCloudClientFactory(@NotNull final CloudRegistrar cloudRegistrar,
                                         @NotNull final PluginDescriptor pluginDescriptor) {
+    myPropertiesProcessor = new PropertiesProcessor() {
+      @NotNull
+      public Collection<InvalidProperty> process(@NotNull final Map<String, String> properties) {
+        return Collections.emptyList();
+      }
+    };
     myJspPath = pluginDescriptor.getPluginResourcesPath("profile-settings.jsp");
     cloudRegistrar.registerCloudFactory(this);
   }
@@ -56,7 +64,7 @@ public class DigitalOceanCloudClientFactory implements CloudClientFactory {
 
   @NotNull
   public String getDisplayName() {
-    return "Digital Ocean Cloud";
+    return "DigitalOcean Cloud";
   }
 
   @Nullable
@@ -75,12 +83,7 @@ public class DigitalOceanCloudClientFactory implements CloudClientFactory {
 
   @NotNull
   public PropertiesProcessor getPropertiesProcessor() {
-    return new PropertiesProcessor() {
-      @NotNull
-      public Collection<InvalidProperty> process(@NotNull final Map<String, String> properties) {
-        return Collections.emptyList();
-      }
-    };
+    return myPropertiesProcessor;
   }
 
   /**

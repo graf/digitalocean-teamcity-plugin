@@ -16,6 +16,7 @@
 
 package com.cloudcastlegroup.digitaloceanplugin.apiclient;
 
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.v1.DigitalOceanApiProvider;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -33,32 +34,24 @@ public class RestApiProviderTest {
   @Test
   public void testImagesApi() {
 
-    final DigitalOceanApiProvider api = new DigitalOceanApiProvider(clientId, apiKey);
+    final DigitalOceanApi api = new DigitalOceanApiProvider(clientId, apiKey);
 
-    ImagesList myImagesList = api.getImages();
+    Image[] myImages = api.getImages();
 
-    Assert.assertNotNull(myImagesList);
-    Assert.assertEquals(myImagesList.getStatus(), "OK");
-    Assert.assertNotNull(myImagesList.getImages());
-    Assert.assertTrue(myImagesList.getImages().length >= 0);
+    Assert.assertNotNull(myImages);
+    Assert.assertTrue(myImages.length >= 0);
 
-    ImagesList imagesList = api.getImages(false);
+    Image[] images = api.getImages(false);
 
-    Assert.assertNotNull(imagesList);
-    Assert.assertEquals(imagesList.getStatus(), "OK");
-    Assert.assertNotNull(imagesList.getImages());
-    Assert.assertTrue(imagesList.getImages().length > 0);
+    Assert.assertNotNull(images);
+    Assert.assertTrue(images.length > 0);
 
-    Assert.assertTrue(imagesList.getImages().length > myImagesList.getImages().length);
+    Assert.assertTrue(images.length > myImages.length);
 
-    final Image image0 = imagesList.getImages()[0];
+    final Image image0 = images[0];
     int id = image0.getId();
 
-    final ImageInstance imageInstance = api.getImage(id);
-    Assert.assertNotNull(imageInstance);
-    Assert.assertEquals(imageInstance.getStatus(), "OK");
-
-    final Image image = imageInstance.getImage();
+    final Image image = api.getImage(id);
     Assert.assertEquals(image.getId(), id);
     Assert.assertEquals(image.getName(), image0.getName());
     Assert.assertEquals(image.getDistribution(), image0.getDistribution());

@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-package com.cloudcastlegroup.digitaloceanplugin.apiclient;
+package com.cloudcastlegroup.digitaloceanplugin.apiclient.v1;
+
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.Droplet;
 
 /**
  * User: graf
- * Date: 10/12/13
- * Time: 16:32
+ * Date: 05/12/13
+ * Time: 15:39
  */
-public class EventInstance extends DigitalOceanApiResponse {
+public class DropletInstance extends DigitalOceanApiResponse {
 
-  private Event event;
+  private Droplet droplet;
 
-  public Event getEvent() {
-    return event;
+  public Droplet getDroplet() {
+    return droplet;
   }
 }

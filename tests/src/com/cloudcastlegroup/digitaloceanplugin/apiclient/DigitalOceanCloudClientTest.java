@@ -19,6 +19,7 @@ package com.cloudcastlegroup.digitaloceanplugin.apiclient;
 import com.cloudcastlegroup.digitaloceanplugin.DigitalOceanCloudClient;
 import com.cloudcastlegroup.digitaloceanplugin.DigitalOceanCloudImage;
 import com.cloudcastlegroup.digitaloceanplugin.DigitalOceanCloudInstance;
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.v1.DigitalOceanApiProvider;
 import com.cloudcastlegroup.digitaloceanplugin.settings.ProfileConfigurationConstants;
 import jetbrains.buildServer.clouds.CloudClientParameters;
 import jetbrains.buildServer.clouds.CloudImage;
@@ -56,8 +57,8 @@ public class DigitalOceanCloudClientTest {
   @Test
   public void testInstanceLifeCycle() throws InterruptedException {
 
-    final DigitalOceanApiProvider api = new DigitalOceanApiProvider(clientId, apiKey);
-    final DropletsList existedDroplets = api.getDroplets();
+    final DigitalOceanApi api = new DigitalOceanApiProvider(clientId, apiKey);
+    final Droplet[] existedDroplets = api.getDroplets();
 
     final CloudClientParameters parameters = new CloudClientParameters();
     parameters.setParameter(ProfileConfigurationConstants.API_KEY_PROFILE_SETTING, apiKey);
@@ -69,6 +70,8 @@ public class DigitalOceanCloudClientTest {
     parameters.setParameter(ProfileConfigurationConstants.SIZE_PROFILE_SETTING, sizeId);
 
     final DigitalOceanCloudClient cloudClient = new DigitalOceanCloudClient(parameters);
+    Assert.assertNull(cloudClient.getErrorInfo());
+
     final Collection<? extends CloudImage> cloudImages = cloudClient.getImages();
 
     Assert.assertEquals(cloudImages.size(), 1);
@@ -84,7 +87,7 @@ public class DigitalOceanCloudClientTest {
     Assert.assertEquals(cloudImage.getInstances().size(), 1);
 
     Thread.sleep(2000);
-    Assert.assertEquals(api.getDroplets().getDroplets().length, existedDroplets.getDroplets().length + 1);
+    Assert.assertEquals(api.getDroplets().length, existedDroplets.length + 1);
     Assert.assertNotNull(newInstance.getDigitalOceanDroplet());
 
     final int dropletId = newInstance.getDigitalOceanDroplet().getId();
@@ -97,9 +100,9 @@ public class DigitalOceanCloudClientTest {
     };
 
     Assert.assertEquals(cloudImage.getInstances().size(), 1);
-    Assert.assertEquals(api.getDroplets().getDroplets().length, existedDroplets.getDroplets().length + 1);
+    Assert.assertEquals(api.getDroplets().length, existedDroplets.length + 1);
 
-    final Droplet droplet = api.getDroplet(dropletId).getDroplet();
+    final Droplet droplet = api.getDroplet(dropletId);
     Assert.assertEquals(droplet.getStatus(), "active");
     Assert.assertNotNull(droplet.getIpAddress());
 
@@ -111,19 +114,19 @@ public class DigitalOceanCloudClientTest {
     new WaitFor(15 * 60 * 1000) {
       @Override
       protected boolean condition() {
-        final String status = api.getDroplet(dropletId).getDroplet().getStatus();
+        final String status = api.getDroplet(dropletId).getStatus();
         return "archive".equals(status) || "off".equals(status);
       }
     };
 
-    Assert.assertEquals(api.getDroplets().getDroplets().length, existedDroplets.getDroplets().length);
+    Assert.assertEquals(api.getDroplets().length, existedDroplets.length);
   }
 
   @Test
   public void testTwoInstancesSimultaneously() throws InterruptedException {
 
-    final DigitalOceanApiProvider api = new DigitalOceanApiProvider(clientId, apiKey);
-    final DropletsList existedDroplets = api.getDroplets();
+    final DigitalOceanApi api = new DigitalOceanApiProvider(clientId, apiKey);
+    final Droplet[] existedDroplets = api.getDroplets();
 
     final CloudClientParameters parameters = new CloudClientParameters();
     parameters.setParameter(ProfileConfigurationConstants.API_KEY_PROFILE_SETTING, apiKey);
@@ -162,7 +165,7 @@ public class DigitalOceanCloudClientTest {
           }
         };
 
-        final Droplet droplet = api.getDroplet(dropletId).getDroplet();
+        final Droplet droplet = api.getDroplet(dropletId);
         Assert.assertEquals(droplet.getStatus(), "active");
         Assert.assertNotNull(droplet.getIpAddress());
 
@@ -173,7 +176,7 @@ public class DigitalOceanCloudClientTest {
         new WaitFor(15 * 60 * 1000) {
           @Override
           protected boolean condition() {
-            final String status = api.getDroplet(dropletId).getDroplet().getStatus();
+            final String status = api.getDroplet(dropletId).getStatus();
             return "archive".equals(status) || "off".equals(status);
           }
         };
@@ -187,7 +190,7 @@ public class DigitalOceanCloudClientTest {
       }
     };
 
-    Assert.assertEquals(api.getDroplets().getDroplets().length, existedDroplets.getDroplets().length);
+    Assert.assertEquals(api.getDroplets().length, existedDroplets.length);
   }
 
 }

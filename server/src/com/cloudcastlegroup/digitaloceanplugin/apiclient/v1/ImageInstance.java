@@ -14,26 +14,20 @@
  * limitations under the License.
  */
 
-package com.cloudcastlegroup.digitaloceanplugin.apiclient;
+package com.cloudcastlegroup.digitaloceanplugin.apiclient.v1;
 
-import org.jetbrains.annotations.NotNull;
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.Image;
 
 /**
  * User: graf
- * Date: 10/12/13
- * Time: 18:54
+ * Date: 05/12/13
+ * Time: 14:14
  */
-public class DigitalOceanApiException extends RuntimeException {
+public class ImageInstance extends DigitalOceanApiResponse {
 
-  @NotNull private DigitalOceanApiResponse myResponse;
+  private Image image;
 
-  public DigitalOceanApiException(@NotNull String message, @NotNull DigitalOceanApiResponse response) {
-    super(message);
-    myResponse = response;
-  }
-
-  @NotNull
-  public DigitalOceanApiResponse getResponse() {
-    return myResponse;
+  public Image getImage() {
+    return image;
   }
 }

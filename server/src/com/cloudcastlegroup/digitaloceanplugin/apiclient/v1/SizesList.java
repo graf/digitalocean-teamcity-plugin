@@ -14,18 +14,29 @@
  * limitations under the License.
  */
 
-package com.cloudcastlegroup.digitaloceanplugin.apiclient;
+package com.cloudcastlegroup.digitaloceanplugin.apiclient.v1;
+
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.Size;
 
 /**
  * User: graf
  * Date: 09/12/13
- * Time: 14:52
+ * Time: 14:37
  */
-public class RegionsList extends DigitalOceanApiResponse {
+public class SizesList extends DigitalOceanApiResponse {
 
-  private Region[] regions;
+  private Size[] sizes;
 
-  public Region[] getRegions() {
-    return regions;
+  public Size[] getSizes() {
+    return sizes;
+  }
+
+  public Size getById(int id) {
+    for (Size size : sizes) {
+      if (size.getId() == id) {
+        return size;
+      }
+    }
+    return null;
   }
 }

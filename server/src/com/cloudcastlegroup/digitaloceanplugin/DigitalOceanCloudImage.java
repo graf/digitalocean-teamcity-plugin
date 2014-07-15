@@ -16,7 +16,7 @@
 
 package com.cloudcastlegroup.digitaloceanplugin;
 
-import com.cloudcastlegroup.digitaloceanplugin.apiclient.DigitalOceanApiProvider;
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.DigitalOceanApi;
 import com.cloudcastlegroup.digitaloceanplugin.apiclient.Droplet;
 import com.cloudcastlegroup.digitaloceanplugin.apiclient.Image;
 import com.intellij.util.containers.ConcurrentHashSet;
@@ -40,22 +40,27 @@ import java.util.concurrent.ExecutorService;
  * Time: 17:00
  */
 public class DigitalOceanCloudImage implements CloudImage {
-  @NotNull private final Map<String, DigitalOceanCloudInstance> myInstances =
+  @NotNull
+  private final Map<String, DigitalOceanCloudInstance> myInstances =
           new ConcurrentHashMap<String, DigitalOceanCloudInstance>();
-  @NotNull private final Collection<DigitalOceanCloudInstance> myStartingInstances =
+  @NotNull
+  private final Collection<DigitalOceanCloudInstance> myStartingInstances =
           new ConcurrentHashSet<DigitalOceanCloudInstance>();
 
   private int myInstancesLimit;
 
-  @Nullable private CloudErrorInfo myLastError;
+  @Nullable
+  private CloudErrorInfo myLastError;
 
-  @NotNull private Image myDigitalOceanImage;
+  @NotNull
+  private Image myDigitalOceanImage;
 
-  @NotNull private final DigitalOceanApiProvider myApi;
+  @NotNull
+  private final DigitalOceanApi myApi;
 
   public DigitalOceanCloudImage(@NotNull final Image image,
-                                final int instancesLimit,
-                                DigitalOceanApiProvider api) {
+                                int instancesLimit,
+                                @NotNull final DigitalOceanApi api) {
     myDigitalOceanImage = image;
     myInstancesLimit = instancesLimit;
     myApi = api;
@@ -91,7 +96,7 @@ public class DigitalOceanCloudImage implements CloudImage {
   }
 
   @NotNull
-  public DigitalOceanCloudInstance startNewInstance(@NotNull final DigitalOceanApiProvider api,
+  public DigitalOceanCloudInstance startNewInstance(@NotNull final DigitalOceanApi api,
                                                     @NotNull CloudInstanceUserData data,
                                                     @NotNull final ExecutorService executor,
                                                     int sshKeyId, int regionId, int sizeId) {
@@ -144,7 +149,7 @@ public class DigitalOceanCloudImage implements CloudImage {
 
   @NotNull
   public Image getDigitalOceanImage() {
-    final Image image = myApi.getImages().findByName(myDigitalOceanImage.getName());
+    final Image image = Image.findByName(myApi.getImages(), myDigitalOceanImage.getName());
     if (image != null) {
       myDigitalOceanImage = image;
       myLastError = null;

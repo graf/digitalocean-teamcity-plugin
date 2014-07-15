@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cloudcastlegroup.digitaloceanplugin.apiclient;
+package com.cloudcastlegroup.digitaloceanplugin.apiclient.v1;
 
 import com.google.gson.Gson;
 import org.jetbrains.annotations.NotNull;

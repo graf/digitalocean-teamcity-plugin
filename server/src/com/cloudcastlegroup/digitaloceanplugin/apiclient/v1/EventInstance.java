@@ -14,27 +14,20 @@
  * limitations under the License.
  */
 
-package com.cloudcastlegroup.digitaloceanplugin.apiclient;
+package com.cloudcastlegroup.digitaloceanplugin.apiclient.v1;
+
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.Event;
 
 /**
  * User: graf
- * Date: 09/12/13
- * Time: 14:37
+ * Date: 10/12/13
+ * Time: 16:32
  */
-public class SizesList extends DigitalOceanApiResponse {
+public class EventInstance extends DigitalOceanApiResponse {
 
-  private Size[] sizes;
+  private Event event;
 
-  public Size[] getSizes() {
-    return sizes;
-  }
-
-  public Size getById(int id) {
-    for (Size size : sizes) {
-      if (size.getId() == id) {
-        return size;
-      }
-    }
-    return null;
+  public Event getEvent() {
+    return event;
   }
 }

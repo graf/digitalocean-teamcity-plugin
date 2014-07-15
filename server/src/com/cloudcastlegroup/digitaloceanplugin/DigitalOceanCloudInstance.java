@@ -16,10 +16,9 @@
 
 package com.cloudcastlegroup.digitaloceanplugin;
 
-import com.cloudcastlegroup.digitaloceanplugin.apiclient.DigitalOceanApiProvider;
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.DigitalOceanApi;
 import com.cloudcastlegroup.digitaloceanplugin.apiclient.Droplet;
 import com.cloudcastlegroup.digitaloceanplugin.apiclient.Event;
-import com.cloudcastlegroup.digitaloceanplugin.apiclient.EventInstance;
 import jetbrains.buildServer.clouds.*;
 import jetbrains.buildServer.serverSide.AgentDescription;
 import jetbrains.buildServer.util.ExceptionUtil;
@@ -57,7 +56,7 @@ public class DigitalOceanCloudInstance implements CloudInstance {
   private final DigitalOceanCloudImage myImage;
 
   @NotNull
-  private final DigitalOceanApiProvider myApi;
+  private final DigitalOceanApi myApi;
 
   private final int myDigitalOceanCloudImageId;
   private final int myDigitalOceanSizeId;
@@ -77,7 +76,7 @@ public class DigitalOceanCloudInstance implements CloudInstance {
   @NotNull
   private final ExecutorService myExecutor;
 
-  public DigitalOceanCloudInstance(@NotNull final DigitalOceanApiProvider api,
+  public DigitalOceanCloudInstance(@NotNull final DigitalOceanApi api,
                                    @NotNull DigitalOceanCloudImage image,
                                    @NotNull ExecutorService executor,
                                    int sshKeyId, int regionId, int sizeId) {
@@ -151,6 +150,7 @@ public class DigitalOceanCloudInstance implements CloudInstance {
 
   /**
    * Starts instance asynchronously in another thread.
+   *
    * @param data instance params
    */
   public void start(@NotNull CloudInstanceUserData data) {
@@ -240,12 +240,11 @@ public class DigitalOceanCloudInstance implements CloudInstance {
   }
 
   private void waitForDigitalOceanEvent(final int eventId, final int timeout) {
-     new WaitFor(timeout) {
+    new WaitFor(timeout) {
       @Override
       protected boolean condition() {
-        final EventInstance event = myApi.getEvent(eventId);
-        return event == null || !("OK".equals(event.getStatus()))
-                || event.getEvent() == null || event.getEvent().isDone();
+        final Event event = myApi.getEvent(eventId);
+        return event == null || event.isDone();
       }
     };
   }
@@ -257,10 +256,10 @@ public class DigitalOceanCloudInstance implements CloudInstance {
     LOG.info("About to create droplet with name '" + name + "'");
 
     myDroplet = myApi.createDroplet(name, myDigitalOceanCloudImageId, myDigitalOceanSizeId,
-            myDigitalOceanRegionId, myDigitalOceanSshKeyId).getDroplet();
+            myDigitalOceanRegionId, myDigitalOceanSshKeyId);
 
     waitForDigitalOceanEvent(myDroplet.getEventId(), DROPLET_CREATING_TIMEOUT);
-    myDroplet = myApi.getDroplet(myDroplet.getId()).getDroplet();
+    myDroplet = myApi.getDroplet(myDroplet.getId());
 
     LOG.info("Droplet [" + myDroplet.getId() + "; " + "ip:" + myDroplet.getIpAddress() + "] has been created in " + ((System.currentTimeMillis() - startTime) / 1000.0) + " sec");
   }
@@ -278,7 +277,8 @@ public class DigitalOceanCloudInstance implements CloudInstance {
       listener.onDropletDestroyed(myDroplet);
     }
 
-    LOG.info("Droplet [" + myDroplet.getId() + "] destroyed in " + ((System.currentTimeMillis() - startTime) / 1000.0) + " sec");
+    LOG.info("Droplet [" + myDroplet.getId() + "] destroyed in " +
+            ((System.currentTimeMillis() - startTime) / 1000.0) + " sec");
   }
 
   private void powerOffDroplet() {

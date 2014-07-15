@@ -14,38 +14,20 @@
  * limitations under the License.
  */
 
-package com.cloudcastlegroup.digitaloceanplugin.apiclient;
+package com.cloudcastlegroup.digitaloceanplugin.apiclient.v1;
 
-import org.jetbrains.annotations.NotNull;
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.SshKey;
 
 /**
  * User: graf
- * Date: 05/12/13
- * Time: 12:56
+ * Date: 09/12/13
+ * Time: 14:43
  */
-public class ImagesList extends DigitalOceanApiResponse {
+public class SshKeyInstance extends DigitalOceanApiResponse {
 
-  private Image[] images;
+  private SshKey ssh_key;
 
-  public Image[] getImages() {
-    return images;
-  }
-
-  public Image findByName(@NotNull String name) {
-    if (name.trim().isEmpty()) {
-      throw new IllegalArgumentException("Name cannot be null or empty");
-    }
-
-    if (images == null) {
-      return null;
-    }
-
-    for (Image image : images) {
-      if (name.equals(image.getName())) {
-        return image;
-      }
-    }
-
-    return null;
+  public SshKey getSshKey() {
+    return ssh_key;
   }
 }

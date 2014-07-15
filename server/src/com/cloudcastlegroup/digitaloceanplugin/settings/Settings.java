@@ -79,7 +79,7 @@ public class Settings {
     return result;
   }
 
-  private static int getInt(CloudClientParameters params, @NotNull String paramName) {
+  private static int getInt(CloudClientParameters params, String paramName) {
     final String result = params.getParameter(paramName);
     if (result == null || result.trim().isEmpty()) {
       throw new IllegalArgumentException(StringUtil.capitalize(paramName) + " cannot be null or empty");

@@ -16,7 +16,10 @@
 
 package com.cloudcastlegroup.digitaloceanplugin;
 
-import com.cloudcastlegroup.digitaloceanplugin.apiclient.*;
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.DigitalOceanApi;
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.Image;
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.SshKey;
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.v1.DigitalOceanApiProvider;
 import com.cloudcastlegroup.digitaloceanplugin.settings.Settings;
 import jetbrains.buildServer.clouds.*;
 import jetbrains.buildServer.serverSide.AgentDescription;
@@ -40,16 +43,20 @@ import static com.cloudcastlegroup.digitaloceanplugin.BuildAgentConfigurationCon
  */
 public class DigitalOceanCloudClient extends BuildServerAdapter implements CloudClientEx {
 
-  @NotNull private final DigitalOceanApiProvider myApi;
+  @NotNull
+  private final DigitalOceanApi myApi;
 
   private int myDigitalOceanSizeId;
   private int myDigitalOceanSshKeyId;
   private int myDigitalOceanRegionId;
 
-  @Nullable private DigitalOceanCloudImage myImage;
-  @Nullable private CloudErrorInfo myErrorInfo;
+  @Nullable
+  private DigitalOceanCloudImage myImage;
+  @Nullable
+  private CloudErrorInfo myErrorInfo;
 
-  @NotNull private final ExecutorService myExecutor =
+  @NotNull
+  private final ExecutorService myExecutor =
           Executors.newCachedThreadPool(new NamedDaemonThreadFactory("digitalocean-cloud-image"));
 
   public DigitalOceanCloudClient(@NotNull final CloudClientParameters params) {
@@ -59,22 +66,21 @@ public class DigitalOceanCloudClient extends BuildServerAdapter implements Cloud
     myApi = new DigitalOceanApiProvider(settings.getClientId(), settings.getApiKey());
 
     try {
-      ImagesList images = myApi.getImages();
-      final Image image = images.findByName(settings.getImageName());
+      final Image[] images = myApi.getImages();
+      final Image image = Image.findByName(images, settings.getImageName());
       if (image != null) {
         myImage = new DigitalOceanCloudImage(image, settings.getInstancesLimit(), myApi);
       } else {
         myErrorInfo = new CloudErrorInfo("Cannot find image with name " + settings.getImageName());
       }
 
-      final SshKeysList sshKeys = myApi.getSshKeys();
-      final SshKey sshKey = sshKeys.findByName(settings.getSshKeyName());
+      final SshKey[] sshKeys = myApi.getSshKeys();
+      final SshKey sshKey = SshKey.findByName(sshKeys, settings.getSshKeyName());
       if (sshKey != null) {
         myDigitalOceanSshKeyId = sshKey.getId();
       } else {
         myErrorInfo = new CloudErrorInfo("Cannot find ssh key with name " + settings.getSshKeyName());
       }
-
     } catch (Exception ex) {
       myErrorInfo = new CloudErrorInfo("Cannot connect to DigitalOcean",
               "Check your internet connection, client id, and api key", ex);
@@ -150,11 +156,11 @@ public class DigitalOceanCloudClient extends BuildServerAdapter implements Cloud
   }
 
   public void restartInstance(@NotNull final CloudInstance instance) {
-    ((DigitalOceanCloudInstance)instance).restart();
+    ((DigitalOceanCloudInstance) instance).restart();
   }
 
   public void terminateInstance(@NotNull final CloudInstance instance) {
-    ((DigitalOceanCloudInstance)instance).terminate();
+    ((DigitalOceanCloudInstance) instance).terminate();
   }
 
   public void dispose() {
@@ -167,8 +173,7 @@ public class DigitalOceanCloudClient extends BuildServerAdapter implements Cloud
 
   @Nullable
   private DigitalOceanCloudImage findImage(@NotNull final AgentDescription agentDescription) {
-    final String imageId = agentDescription.getConfigurationParameters()
-            .get(IMAGE_ID_PARAM_NAME);
+    final String imageId = agentDescription.getConfigurationParameters().get(IMAGE_ID_PARAM_NAME);
     return imageId == null ? null : findImageById(imageId);
   }
 

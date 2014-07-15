@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-package com.cloudcastlegroup.digitaloceanplugin.apiclient;
+package com.cloudcastlegroup.digitaloceanplugin.apiclient.v1;
+
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.Image;
 
 /**
  * User: graf
  * Date: 05/12/13
- * Time: 14:14
+ * Time: 12:56
  */
-public class ImageInstance extends DigitalOceanApiResponse {
+public class ImagesList extends DigitalOceanApiResponse {
 
-  private Image image;
+  private Image[] images;
 
-  public Image getImage() {
-    return image;
+  public Image[] getImages() {
+    return images;
   }
 }

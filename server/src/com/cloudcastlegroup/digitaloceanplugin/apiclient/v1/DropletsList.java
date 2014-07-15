@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.cloudcastlegroup.digitaloceanplugin.apiclient;
+package com.cloudcastlegroup.digitaloceanplugin.apiclient.v1;
+
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.Droplet;
 
 /**
  * User: graf

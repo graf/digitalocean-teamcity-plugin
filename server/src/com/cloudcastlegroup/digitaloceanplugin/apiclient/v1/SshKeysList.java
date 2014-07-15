@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-package com.cloudcastlegroup.digitaloceanplugin.apiclient;
+package com.cloudcastlegroup.digitaloceanplugin.apiclient.v1;
+
+import com.cloudcastlegroup.digitaloceanplugin.apiclient.SshKey;
 
 /**
  * User: graf
- * Date: 05/12/13
- * Time: 15:39
+ * Date: 09/12/13
+ * Time: 14:44
  */
-public class DropletInstance extends DigitalOceanApiResponse {
+public class SshKeysList extends DigitalOceanApiResponse {
 
-  private Droplet droplet;
+  private SshKey[] ssh_keys;
 
-  public Droplet getDroplet() {
-    return droplet;
+  public SshKey[] getSshKeys() {
+    return ssh_keys;
   }
 }
