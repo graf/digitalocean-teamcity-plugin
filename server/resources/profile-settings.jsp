@@ -64,10 +64,9 @@
   <th><label for="${regionIdParamName}">Region*:</label></th>
   <td>
     <props:selectProperty name="${regionIdParamName}" className="longField">
-      <props:option value="2"><c:out value="Amsterdam 1"/></props:option>
       <props:option value="5"><c:out value="Amsterdam 2"/></props:option>
+      <props:option value="9"><c:out value="Amsterdam 3"/></props:option>
       <props:option value="7"><c:out value="London 1"/></props:option>
-      <props:option value="1"><c:out value="New York 1"/></props:option>
       <props:option value="4"><c:out value="New York 2"/></props:option>
       <props:option value="8"><c:out value="New York 3"/></props:option>
       <props:option value="3"><c:out value="San Francisco 1"/></props:option>
