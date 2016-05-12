@@ -34,10 +34,10 @@ Install and configure plugin on the client
 ============================================
 - Setup your testing environment and install build agent as described in TeamCity's documentation
 - Edit file $BUILD_AGENT_INSTALL_PATH/conf/buildAgent.properties
-** Find digitalocean-cloud.image.id property and set it to the specific image (aka DigitalOcean's snapshot) that you gonna use. Use name of your snapshot as Image Id.
-** Setup URL to your TeamCity server
-** Make sure that authorization_token is not set
-** Setup any other properties as you want
+ * Find digitalocean-cloud.image.id property and set it to the specific image (aka DigitalOcean's snapshot) that you gonna use. Use name of your snapshot as Image Id.
+ * Setup URL to your TeamCity server
+ * Make sure that authorization_token is not set
+ * Setup any other properties as you want
 - Run buildAgent and wait until it connects to the server. During the first run it may download a plenty of plugins from TeamCity server.
 - When you are sure that agent and instance are configured properly, shutdown agent and instance.
 - Edit buildAgent.properties and remove clean-up authorization_token and name
@@ -54,15 +54,15 @@ Install and setup plugin on the server
 - Start TeamCity again
 - Go to Server Administration - Agent Cloud at the left menu
 - Click Create new profile
-** Specify build agent idle time
-** Select Digital Ocean Cloud
-** Enter you API key
-** Enter Client ID
-** Enter Image name, use your image name from DigitalOcean snapshot
-** Enter ssh key name that you want to install on the client
-** Select region where you instance will be running
-** Select size of your future instance
-** Click Save and make sure that there are no errors
+ * Specify build agent idle time
+ * Select Digital Ocean Cloud
+ * Enter you API key
+ * Enter Client ID
+ * Enter Image name, use your image name from DigitalOcean snapshot
+ * Enter ssh key name that you want to install on the client
+ * Select region where you instance will be running
+ * Select size of your future instance
+ * Click Save and make sure that there are no errors
 - For the first time client created TeamCity tries to create an instance in cloud, so verify that everything is OK and new instance has actually appeared in your Digital Ocean's account.
 
 License
