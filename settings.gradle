@@ -1,0 +1,5 @@
+rootProject.name = 'teamcity-digitalocean-plugin'
+
+include 'plugin-digitalocean-agent'
+include 'plugin-digitalocean-common'
+include 'plugin-digitalocean-server'

@@ -1,0 +1,34 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath group: 'com.github.rodm', name: 'gradle-teamcity-plugin', version: '0.9.1'
+    }
+}
+
+ext {
+    versionNumber = '2.0-SNAPSHOT'
+    projectIds = ['group': 'teamcity-digitalocean-plugin', 'version': versionNumber]
+    teamcityVersion = '10.0.1'
+}
+
+group = projectIds.group
+version = projectIds.version
+
+allprojects {
+    group = projectIds.group
+    version = projectIds.version
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.6
+    targetCompatibility = 1.6
+
+    test.useTestNG()
+    jar.version = null
+}
