@@ -1,0 +1,26 @@
+jdk: oraclejdk8
+
+language: java
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+cache:
+  directories:
+    - "$HOME/.m2"
+    - "$HOME/.gradle"
+    - "$HOME/.gradle/caches/"
+    - "$HOME/.gradle/wrapper/"
+
+script:
+  - "./gradlew clean build --stacktrace"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: cqykpTxHm2ciLk03gZHM6xtY4lvk2w/CIXunYv0fPD84LlMrscACQu5bmyQd1vD/dMFjGuNbfIV/1ggTEq50jraBJP1M7dzL4kJKMRUKUJrJfeflFhnTDUa//laUYMNZG735kU8gJfMWc+AX+j142Xz0U3naWjA3lBbEviDc9pA=
+  file: plugin-digitalocean-server/build/distributions/digitalocean-cloud.zip
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: graf/digitalocean-teamcity-plugin

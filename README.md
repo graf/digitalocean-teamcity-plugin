@@ -2,6 +2,8 @@ This is a TeamCity Cloud Plugin that provides integration with Digital Ocean and
 
 Compatible with TC9 and TC10
 
+[![Build Status](https://travis-ci.org/graf/digitalocean-teamcity-plugin.svg?branch=master)](https://travis-ci.org/graf/digitalocean-teamcity-plugin)
+
 Build plugin
 ===============================
 The easiest way is to build plugin with Gradle
