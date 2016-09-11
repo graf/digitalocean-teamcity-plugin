@@ -29,7 +29,7 @@ Install and setup plugin on the server
  * Enter you API key
  * Enter Image name, use your snapshot name in DigitalOcean
  * Enter ssh key name that you want to install on the client
- * Select region where you instance will be running (For now check manually that snapshot is available in this zone)
+ * Select region where you instance will be running (Check manually that snapshot is available in this zone)
  * Select size of your future instance
  * Click Save and make sure that there are no errors
 - For the first time client created TeamCity tries to create an instance in cloud, so verify that everything is OK and new instance has actually appeared in your Digital Ocean's account.
