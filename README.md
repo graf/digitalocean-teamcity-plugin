@@ -1,8 +1,10 @@
 This is a TeamCity Cloud Plugin that provides integration with Digital Ocean and allows running build agents in Cloud.
 
-Compatible with TC9 and TC10
-
 [![Build Status](https://travis-ci.org/graf/digitalocean-teamcity-plugin.svg?branch=master)](https://travis-ci.org/graf/digitalocean-teamcity-plugin)
+
+<a href="https://github.com/graf/digitalocean-teamcity-plugin/releases">Download latest release</a>
+
+Compatible with TC9 and TC10
 
 Build plugin
 ===============================

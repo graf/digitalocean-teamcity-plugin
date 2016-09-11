@@ -42,10 +42,19 @@
   <th><label for="${regionIdParamName}">Region*:</label></th>
   <td>
     <props:selectProperty name="${regionIdParamName}" className="longField">
-      <props:option value="nyc1"><c:out value="New York 1"/></props:option>
-      <props:option value="sfo1"><c:out value="San Francisco 1"/></props:option>
-      <props:option value="nyc2"><c:out value="New York 2"/></props:option>
       <props:option value="ams2"><c:out value="Amsterdam 2"/></props:option>
+      <props:option value="ams3"><c:out value="Amsterdam 3"/></props:option>
+      <props:option value="blr1"><c:out value="Bangalore 1"/></props:option>
+      <props:option value="fra1"><c:out value="Frankfurt 1"/></props:option>
+      <props:option value="lon1"><c:out value="London 1"/></props:option>
+      <props:option value="nyc1"><c:out value="New York 1"/></props:option>
+      <props:option value="nyc2"><c:out value="New York 2"/></props:option>
+      <props:option value="nyc3"><c:out value="New York 3"/></props:option>
+      <props:option value="sfo1"><c:out value="San Francisco 1"/></props:option>
+      <props:option value="sfo1"><c:out value="San Francisco 2"/></props:option>
+      <props:option value="sfo2"><c:out value="San Francisco 2"/></props:option>
+      <props:option value="sgp1"><c:out value="Singapore 1"/></props:option>
+      <props:option value="tor1"><c:out value="Toronto 1"/></props:option>
     </props:selectProperty>
 </tr>
 
