@@ -93,8 +93,7 @@ public class DigitalOceanCloudImage implements CloudImage {
   @Nullable
   @Override
   public Integer getAgentPoolId() {
-    //FIXME: Implement new method
-    return -1;
+    return null;
   }
 
   @Nullable
