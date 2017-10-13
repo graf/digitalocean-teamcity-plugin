@@ -48,6 +48,11 @@ public class DigitalOceanPropertiesPatcher {
     final String imageId = myConfig.getConfigurationParameters().get(BuildAgentConfigurationConstants.IMAGE_ID_PARAM_NAME);
     final String ipAddress = getIpAddress();
 
+    if (imageId == null) {
+      LOG.info(BuildAgentConfigurationConstants.IMAGE_ID_PARAM_NAME + " not set; assumming not running on Digital Ocean");
+      return;
+    }
+
     myConfig.setName(NamesFactory.getBuildAgentName(imageId, ipAddress));
     myConfig.addConfigurationParameter(BuildAgentConfigurationConstants.INSTANCE_ID_PARAM_NAME,
             NamesFactory.getInstanceId(ipAddress));
