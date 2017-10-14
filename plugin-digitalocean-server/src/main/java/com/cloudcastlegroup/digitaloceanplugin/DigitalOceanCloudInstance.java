@@ -141,6 +141,11 @@ public class DigitalOceanCloudInstance implements CloudInstance {
     return myErrorInfo;
   }
 
+  public void setExistingDroplet(Droplet droplet) {
+    myDroplet = droplet;
+    myStatus = InstanceStatus.RUNNING;
+  }
+
   /**
    * Check whether or not specified agent is running on this machine
    *
