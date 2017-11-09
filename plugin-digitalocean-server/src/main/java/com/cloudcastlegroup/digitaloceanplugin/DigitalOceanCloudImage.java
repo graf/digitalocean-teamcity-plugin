@@ -93,8 +93,7 @@ public class DigitalOceanCloudImage implements CloudImage {
   @Nullable
   @Override
   public Integer getAgentPoolId() {
-    //FIXME: Implement new method
-    return -1;
+    return null;
   }
 
   @Nullable
@@ -135,6 +134,26 @@ public class DigitalOceanCloudImage implements CloudImage {
     });
 
     return newInstance;
+  }
+
+  public synchronized void addExistingDroplet(Droplet droplet, ExecutorService executor) {
+    int sshKeyId = 0; // dummy key, since the instance is already created
+    String regionId = droplet.getRegion().getSlug();
+    String sizeId = droplet.getSize();
+    final DigitalOceanCloudInstance instance = new DigitalOceanCloudInstance(
+      myApi, this, executor, sshKeyId, regionId, sizeId);
+    instance.setExistingDroplet(droplet);
+    final DigitalOceanCloudImage self = this;
+    instance.addOnDropletReadyListener(new DropletLifecycleListener() {
+      public void onDropletStarted(Droplet droplet) {}
+      public void onDropletError(Droplet droplet) {}
+      public void onDropletDestroyed(Droplet droplet) {
+        synchronized (self) {
+          myInstances.remove(instance.getInstanceId());
+        }
+      }
+    });
+    myInstances.put(instance.getInstanceId(), instance);
   }
 
   public synchronized boolean canStartNewInstance() {

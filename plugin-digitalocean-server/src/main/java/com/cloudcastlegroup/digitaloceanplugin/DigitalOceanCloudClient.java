@@ -18,12 +18,14 @@ package com.cloudcastlegroup.digitaloceanplugin;
 
 import com.cloudcastlegroup.digitaloceanplugin.apiclient.DigitalOceanApiProvider;
 import com.cloudcastlegroup.digitaloceanplugin.settings.PluginConfiguration;
+import com.myjeeva.digitalocean.pojo.Droplet;
 import com.myjeeva.digitalocean.pojo.Image;
 import com.myjeeva.digitalocean.pojo.Key;
 import jetbrains.buildServer.clouds.*;
 import jetbrains.buildServer.serverSide.AgentDescription;
 import jetbrains.buildServer.serverSide.BuildServerAdapter;
 import jetbrains.buildServer.util.NamedDaemonThreadFactory;
+import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,6 +33,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.List;
 
 import static com.cloudcastlegroup.digitaloceanplugin.BuildAgentConfigurationConstants.IMAGE_ID_PARAM_NAME;
 import static com.cloudcastlegroup.digitaloceanplugin.BuildAgentConfigurationConstants.INSTANCE_ID_PARAM_NAME;
@@ -41,6 +44,8 @@ import static com.cloudcastlegroup.digitaloceanplugin.BuildAgentConfigurationCon
  * Time: 17:00
  */
 public class DigitalOceanCloudClient extends BuildServerAdapter implements CloudClientEx {
+
+  private static final Logger LOG = Logger.getLogger(DigitalOceanCloudClient.class);
 
   @NotNull
   private final DigitalOceanApiProvider myApi;
@@ -70,6 +75,16 @@ public class DigitalOceanCloudClient extends BuildServerAdapter implements Cloud
         myImage = new DigitalOceanCloudImage(image, settings.getInstancesLimit(), myApi);
       } else {
         myErrorInfo = new CloudErrorInfo("Cannot find image with name " + settings.getImageName());
+      }
+
+      List<Droplet> droplets = myApi.getDroplets();
+      for (Droplet droplet : droplets) {
+        LOG.info("Found existing droplet " + droplet.getName() + " with image ID " +
+          droplet.getImage().getId() + " (looking for " + image.getId() + ")");
+        if (droplet.getImage().getId().equals(image.getId())) {
+          LOG.info("Creating cloud instance for droplet " + droplet.getName());
+          myImage.addExistingDroplet(droplet, myExecutor);
+        }
       }
 
       final Key sshKey = myApi.getSshKey(settings.getSshKeyName());
