@@ -5,6 +5,8 @@ This is a TeamCity Cloud Plugin that provides integration with Digital Ocean and
 <a href="https://github.com/graf/digitalocean-teamcity-plugin/releases">Download latest release</a>
 
 Compatible with TC9 and TC10
+Stay curious and test on modern TC versions. It should work either.
+Tested on new version and it seems working? - Report here and be the most appreciated contributor!
 
 Build plugin
 ===============================
