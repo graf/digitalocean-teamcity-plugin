@@ -18,7 +18,7 @@ script:
 deploy:
   provider: releases
   api_key:
-    secure: cqykpTxHm2ciLk03gZHM6xtY4lvk2w/CIXunYv0fPD84LlMrscACQu5bmyQd1vD/dMFjGuNbfIV/1ggTEq50jraBJP1M7dzL4kJKMRUKUJrJfeflFhnTDUa//laUYMNZG735kU8gJfMWc+AX+j142Xz0U3naWjA3lBbEviDc9pA=
+    secure: nsfbbmO64VkuSgcD5B/X21eN/99Kv0cg/CdRdqHcko+7QEB8UZJqft5h3D8jntRxi3bgcJ0j1+6NS7fs5LPhNoEn9nnBhFLI89/ZspP7pw9zbZ/iqLTYHN//wwKq2w76MBp5XIOrIDLMDKzyKnCfbkQITH0sdT5FYSjX63W6cMQ=
   file: plugin-digitalocean-server/build/distributions/digitalocean-cloud.zip
   skip_cleanup: true
   on:
